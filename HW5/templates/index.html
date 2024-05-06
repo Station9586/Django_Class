@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block tvname %} {{ tv.name }} {% endblock %}
+
+{% block menu %}
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        {% for i in tv_list %}
+            <li><a href="{% url 'tv-url' forloop.counter0 %}">{{ i.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div id="tvcode" align = "center">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ tv.tvcode }}?autoplay=1"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+{% endblock %}

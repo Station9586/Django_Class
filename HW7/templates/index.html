@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}賣手機！{% endblock %}
+{% block content %}
+<div class="container" align = "center">
+    {% for p in products %}
+        {% if forloop.first %}
+            <table>
+                <tr bgcolor="#cccccc">
+                    <td width="250">庫存手機</td>
+                    <td width="150">廠牌 / 型號</td>
+                    <td width="50">出場年</td>
+                    <td>價格</td>
+                </tr>
+        {% endif %}
+                <tr bgcolor="{% cycle '#ffccff' '#ccffcc' %}">
+        {% if p.pmodel.maker.name == '該機型已停產' %}
+                    <td>{{ p.nickname }}</td>
+        {% else %}
+                    <td><a href="{% url 'detail-url' p.id %}">{{ p.nickname }}</a></td>
+        {% endif %}
+                    <td>{{ p.pmodel.maker.name }} / {{ p.pmodel }}</td>
+                    <td>{{ p.year }}</td>
+                    <td align="right">{{ p.price }}</td>
+                </tr>
+        {% if forloop.last %}
+            </table>
+        {% endif %}
+        {% empty %}
+            <h3>沒有東西可以買...</h3>
+    {% endfor %}
+</div>
+{% endblock %}

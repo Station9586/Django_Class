@@ -1,0 +1,8 @@
+{% block footer %}
+    {% if now %}
+        <b style="font-family:monospace;">現在時間: {{now}}</b>
+        <hr style = "border-width: 2px; border-color: gray;">
+    {% else %}
+        <p style="font-family: monospace;">內容亂寫的</p>
+    {% endif %}
+{% endblock %}
