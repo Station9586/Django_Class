@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %} 日記？ {% endblock %}
+{% comment %} {% block content %}
+<div class="container">
+    <form name = "my form" action = '/' method="get">
+        <label for="user_id"> Your ID: </label>
+        <input type = 'text' name = 'user_id' id = 'user_id'>
+        <label for="user_pass"> Your Password: </label>
+        <input type="password" name="user_pass">
+        <label for='byear'>出生年: </label>
+        <select>
+            {% for i in years %}
+                <option value = "{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+        喜歡的顏色(可複選): 
+        <input type="checkbox" name="fcolor" value = 'Green'>Green
+        <input type="checkbox" name="fcolor" value = 'Red'>Red
+        <input type="checkbox" name="fcolor" value = 'Blue'>Blue
+        <input type="checkbox" name="fcolor" value = 'Yellow'>Yellow
+
+        顏色喜好: 
+        {% for c in urfcolor %}
+         {{ c }}
+        {% empty %}
+            沒有選擇任何顏色
+        {% endfor %}
+        <br>
+        <input type="submit" value = 'Login'>
+        <input type="reset" value="清除重填">
+    </form>
+
+    Your ID: {{ urid | default:"未輸入 ID" }} <br>
+    {% if verified %}
+        <em>通過驗證</em>
+    {% else %}
+        <em>密碼或帳號錯了</em>
+    {% endif %}
+</div>
+{% endblock %} {% endcomment %}
+
+{% comment %} {% block content %}
+    {% if message %}
+        <div class="alert alert-warning"> {{ message }} </div>
+    {% endif %}
+    <form name = "my form" action = '/' method="GET">
+        現在的心情: <br>
+        {% for m in moods %}
+            <input type="radio" name="mood" value = "{{ m.status }}">{{ m.status }}
+        {% endfor %}
+        <br>
+        心情留言板: <br>
+        <textarea name = 'user_post' rows = 3 cols = 70></textarea><br>
+        <label for="user_id"> 暱稱: </label>
+        <input type = 'text' name = 'user_id' id = 'user_id'><br>
+        <label for="user_pass"> 張貼 / 刪除密碼: </label>
+        <input id = 'user_pass' type="password" name="user_pass"><br>
+        <label for='byear'>出生年: </label>
+        <select name = 'user_birth'>
+            {% for i in years %}
+                <option value = "{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="submit" value = '張貼'>
+        <input type="reset" value = "清除重填"><br>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel panel-heading" align="center">
+                    <h3>講話喔</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for p in posts %}
+            <div class="cal-sm-12 col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">{{ p.nickname }} 覺得 {{ p.mood }}</div>
+                    <div class="panel-body">{{ p.message | linebreaks }}</div>
+                    <div class="panel-footer" align="right">
+                        <i><small>出生年: {{ p.birth }}; </small></i>
+                        <i><small>{{ p.pub_time }}</small></i>
+                        <span class = 'glyphicon glyphicon-trash' onclick = 'Delete({{p.id}});'></span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %} {% endcomment %}
+
+{% comment %} {% block content %}
+<div class = 'row'>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" align="center">
+                <h3>{{ username | default:"我" }}的日記</h3>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% endcomment %}
+
+{% block content %}
+    <div class="container">
+        {% for message in messages  %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" align="center">
+                        <h3>{{ username | default:"我" }}的日記</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for d in diary %}
+            <div class='row'>
+                <div class="col-md-14">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" align="center">{{ d.date }}</div>
+                        <div class="panel-body">{{ d.note | linebreaks }}</div>
+                        <div class="panel-footer">今日花費: {{ d.budget }}元，體重: {{ d.weight }} kg</div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <h3><em>登入網站才能使用日記功能</em></h3>
+        {% endfor %}
+    </div>
+{% endblock %}
